@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#11151c">
+  <title>Quantum Aux</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main id="login">
+    <div class="brandmark">Q / AUX</div>
+    <div class="eyebrow">PERSONAL MONITOR CONTROL</div>
+    <h1>Your stage.<br>Your mix.</h1>
+    <p>Choose an available mix. One user per aux.</p>
+    <p id="mix-status" role="status">Loading mixes from the console…</p>
+    <section id="mix-list" aria-label="Choose an available mix"></section>
+    <p class="hint">Quantum 338 · Local Wi-Fi control<br>Connect to the same network as your mix bridge.<br>Engineer: configure the connection in the Quantum Aux Bridge app.</p>
+  </main>
+  <main id="mixer" class="mix-console" hidden>
+    <header>
+      <div><div class="eyebrow">QUANTUM / AUX ONLY</div><h1 id="mixname"></h1></div>
+      <div class="header-actions"><span id="status" role="status">Connecting</span><button id="show-pan" aria-pressed="false">Pan</button><button id="lock">Lock controls</button><button id="leave">Leave mix</button></div>
+    </header>
+    <section class="toolbar">
+      <div><span class="pill" id="auxlabel"></span><span class="description">SEND LEVELS · dB</span></div>
+      <div class="bank-controls"><button id="bank-prev" aria-label="Previous channel bank">‹</button><button id="bank-next" aria-label="Next channel bank">›</button></div><input type="search" id="search" placeholder="Find an input…" aria-label="Find an input">
+    </section>
+    <nav id="groups" aria-label="Input groups"></nav>
+    <div class="notice" id="notice" role="status"></div>
+    <section id="channels" aria-label="Aux send controls"></section>
+    <footer>Swipe channel labels sideways for more inputs. <span id="ceiling"></span></footer>
+  </main>
+  <div id="error" role="alert" hidden></div>
+</body>
+</html>
