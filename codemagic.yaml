@@ -1,25 +1,35 @@
 workflows:
-  ios-build-check:
-    name: Quantum Aux - Build Check
+  ios-unsigned-ipa:
+    name: Quantum Aux - Unsigned IPA
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       xcode: latest
-    scripts:
-      - name: Test bridge logic
-        script: |
-          set -e
-          swift test
 
-      - name: Build iOS app
+    scripts:
+      - name: Build for iPhone and iPad
         script: |
           set -e
           xcodebuild \
             -project QuantumAuxBridge.xcodeproj \
             -scheme QuantumAuxBridge \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             -derivedDataPath build \
+            PRODUCT_BUNDLE_IDENTIFIER=com.wisheey.QuantumAuxBridge \
             CODE_SIGNING_ALLOWED=NO \
             build
+
+      - name: Package unsigned IPA
+        script: |
+          set -e
+          APP="build/Build/Products/Release-iphoneos/QuantumAuxBridge.app"
+          test -d "$APP"
+          mkdir -p unsigned/Payload
+          ditto "$APP" unsigned/Payload/QuantumAuxBridge.app
+          cd unsigned
+          /usr/bin/zip -qry QuantumAuxBridge-unsigned.ipa Payload
+
+    artifacts:
+      - unsigned/QuantumAuxBridge-unsigned.ipa
