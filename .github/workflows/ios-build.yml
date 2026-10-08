@@ -1,0 +1,31 @@
+name: Quantum Aux Build Check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - name: Download project
+        uses: actions/checkout@v4
+
+      - name: Test bridge logic
+        run: swift test
+
+      - name: Build iOS app
+        run: |
+          xcodebuild \
+            -project QuantumAuxBridge.xcodeproj \
+            -scheme QuantumAuxBridge \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            build
